@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using GlobalForums.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using GlobalForums.Data.Models;
 using GlobalForums.Services;
+using GlobalForums.Data.Domains.Services;
+using GlobalForums.Services.Services;
+using GlobalForums.Data.Persistance.Context;
+using GlobalForums.Domains.Services;
+using GlobalForums.Data.Domains.Models;
 
 namespace GlobalForums
 {
@@ -31,6 +34,8 @@ namespace GlobalForums
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<IForum, ForumService>();
+            services.AddScoped<IPost, PostService>();
 
             services.AddMvc();
         }
