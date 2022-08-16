@@ -14,9 +14,10 @@ namespace GlobalForums.Services.Services
             _context = context;
         }
 
-        public Task Add(Post post)
+        public async Task Add(Post post)
         {
-            throw new NotImplementedException();
+            _context.Add(post);
+            await _context.SaveChangesAsync();
         }
 
         public Task AddReply(PostReply reply)
@@ -36,7 +37,10 @@ namespace GlobalForums.Services.Services
 
         public IEnumerable<Post> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Posts
+                .Include(post => post.User)
+                .Include(post => post.Replies).ThenInclude(reply => reply.User)
+                .Include(post => post.Forum);
         }
 
         public Post GetById(int id)
@@ -60,7 +64,7 @@ namespace GlobalForums.Services.Services
 
         public IEnumerable<Post> GetLatestPosts(int postsNumber)
         {
-            throw new NotImplementedException();
+            return GetAll().OrderByDescending(post => post.Created).Take(postsNumber);
         }
 
         public IEnumerable<Post> GetPostsByForum(int id)

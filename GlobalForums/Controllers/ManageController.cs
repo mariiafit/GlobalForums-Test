@@ -521,7 +521,7 @@ namespace GlobalForums.Controllers
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("LambdaForums"),
+                _urlEncoder.Encode("GlobalForums"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

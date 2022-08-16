@@ -21,8 +21,8 @@ namespace GlobalForums.Controllers
 
         public IActionResult Index()
         {
-            /*var model = BuildHomeIndexViewModel();*/
-            return View(/*model*/);
+            var model = BuildHomeIndexViewModel();
+            return View(model);
         }
 
         private HomeIndexViewModel BuildHomeIndexViewModel()

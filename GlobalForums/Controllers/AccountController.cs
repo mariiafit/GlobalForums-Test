@@ -3,13 +3,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using GlobalForums.Services;
 using GlobalForums.Data.Domains.Models;
 using GlobalForums.Domains.Services;
 using GlobalForums.Domains.Models.AccountViewModels;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNetCore.Identity;
 
 namespace GlobalForums.Controllers
 {
@@ -17,8 +19,8 @@ namespace GlobalForums.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
@@ -51,9 +53,13 @@ namespace GlobalForums.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+/*            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }*/
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -82,6 +88,22 @@ namespace GlobalForums.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+
+            /*var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Неудачная попытка входа.");
+                    return View(model);
+            }*/
         }
 
         [HttpGet]
