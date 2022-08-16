@@ -34,5 +34,4 @@ or to ```https://localhost:44361/Post/Create/3``` or to ```https://localhost:443
 
 Navigate to ```https://localhost:44361/swagger/``` to check the project.
 
-![API Documentation]
-(https://github.com/mariiafit/GlobalForums/blob/master/images/swagger_1.png)
+![API Documentation](https://github.com/mariiafit/GlobalForums/blob/master/images/swagger_1.png)
